@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Respira — Kimetsu · Jujutsu · Black Clover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;1,300;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  /* =====================================================
+     TRES ESCENAS SERENAS · fundido entre mundos
+     Kimetsu no Yaiba / Jujutsu Kaisen / Black Clover
+     CSS puro · movimiento lento · sin parpadeos ni neones
+     ===================================================== */
+
+  :root {
+    --ink: #f4ece7;
+    --ink-soft: rgba(244, 236, 231, 0.62);
+    --faint: rgba(244, 236, 231, 0.28);
+  }
+  body.v-jk {
+    --ink: #eeeaf9;
+    --ink-soft: rgba(238, 234, 249, 0.6);
+    --faint: rgba(238, 234, 249, 0.25);
+  }
+  body.v-bc {
+    --ink: #f2f6ec;
+    --ink-soft: rgba(242, 246, 236, 0.62);
+    --faint: rgba(242, 246, 236, 0.28);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: "Manrope", "Segoe UI", system-ui, sans-serif;
+    color: var(--ink);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    transition: color 2s ease;
+  }
+
+  /* ---------- Escenas (fundido entre mundos) ---------- */
+  .scene {
+    position: fixed;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.8s ease, visibility 0s linear 1.8s;
+  }
+  .scene.on {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1.8s ease;
+  }
+
+  .sky {
+    position: absolute;
+    inset: 0;
+  }
+
+  .scene.ka .sky {
+    background: linear-gradient(180deg,
+      #261c44 0%,
+      #3a2a5c 38%,
+      #6c4a6e 66%,
+      #96687a 84%,
+      #ad7c80 100%);
+  }
+  .scene.jk .sky {
+    background: radial-gradient(120% 90% at 50% 40%,
+      #43336e 0%,
+      #2a2250 42%,
+      #171228 78%,
+      #0d0a17 100%);
+  }
+  .scene.bc .sky {
+    background: linear-gradient(180deg,
+      #1f4d46 0%,
+      #3d7a63 34%,
+      #7aa982 62%,
+      #b7cda1 84%,
+      #dbcfa7 100%);
+  }
+
+  /* ---------- Escena KIMETSU · luna, colinas y sakura ---------- */
+  .moon {
+    position: absolute;
+    width: clamp(80px, 10vw, 120px);
+    height: clamp(80px, 10vw, 120px);
+    left: 62%; top: 22%;
+    border-radius: 50%;
+    background: #fbf2df;
+    box-shadow: 0 0 60px 30px rgba(255, 214, 190, 0.4);
+  }
+  .ka .hills {
+    position: absolute;
+    left: -2%; right: -2%; bottom: -2%;
+    width: 104%; height: 62%;
+  }
+
+  .petals { position: absolute; inset: 0; overflow: hidden; }
+  .petal {
+    position: absolute;
+    top: 0; left: var(--l);
+    animation: petfall var(--d) linear infinite;
+    animation-delay: var(--dl);
+    will-change: transform;
+  }
+  .petal i {
+    display: block;
+    width: var(--s); height: var(--s);
+    background: linear-gradient(135deg, #f9d3de, #efa9c2);
+    border-radius: 100% 20% 100% 20%;
+    box-shadow: 0 1px 4px rgba(20, 10, 30, 0.18);
+    animation: petsway var(--sw) ease-in-out infinite alternate;
+    animation-delay: var(--sdl);
+  }
+  @keyframes petfall {
+    0%   { transform: translate3d(0, -8vh, 0) rotate(0deg); }
+    50%  { transform: translate3d(5vw, 52vh, 0) rotate(180deg); }
+    100% { transform: translate3d(-3vw, 112vh, 0) rotate(360deg); }
+  }
+  @keyframes petsway {
+    from { transform: rotate(18deg) translateX(-9px); }
+    to   { transform: rotate(38deg) translateX(9px); }
+  }
+
+  .ripple {
+    position: absolute;
+    left: 50%; top: 62%;
+    width: 74px; height: 74px;
+    margin: -37px 0 0 -37px;
+    border: 1.5px solid rgba(250, 226, 196, 0.55);
+    border-radius: 50%;
+    animation: ripple 9s ease-out infinite;
+    animation-delay: var(--rd);
+    opacity: 0;
+  }
+  @keyframes ripple {
+    0%   { transform: scale(0.55); opacity: 0.55; }
+    75%  { opacity: 0.1; }
+    100% { transform: scale(2.7); opacity: 0; }
+  }
+
+  /* ---------- Escena JUJUTSU · dominio infinito ---------- */
+  .jk .stars { position: absolute; inset: 0; }
+  .jk .stars i {
+    position: absolute;
+    width: 2px; height: 2px;
+    border-radius: 50%;
+    background: rgba(238, 234, 255, 0.75);
+  }
+  .seam {
+    position: absolute;
+    left: 0; right: 0;
+    top: 42%;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent, rgba(216, 206, 255, 0.55) 30%,
+      rgba(216, 206, 255, 0.55) 70%, transparent);
+    box-shadow: 0 0 28px 10px rgba(150, 132, 240, 0.18);
+  }
+  .gate, .gate2 {
+    position: absolute;
+    left: 50%; top: 42%;
+    border-radius: 50%;
+    border: 1.5px solid rgba(206, 196, 255, 0.4);
+    transform-origin: center;
+    transform: translate(-50%, -50%);
+  }
+  .gate  { width: 210px; height: 210px; animation: breathe 9s ease-in-out infinite; }
+  .gate2 { width: 210px; height: 210px;
+    border-color: rgba(206, 196, 255, 0.22);
+    animation: breathe 9s ease-in-out infinite 4.5s; }
+  @keyframes breathe {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50%      { transform: translate(-50%, -50%) scale(1.035); }
+  }
+
+  /* ---------- Escena BLACK CLOVER · trébol y pradera ---------- */
+  .bc .sun {
+    position: absolute;
+    width: clamp(76px, 9vw, 110px);
+    height: clamp(76px, 9vw, 110px);
+    left: 30%; top: 20%;
+    border-radius: 50%;
+    background: #fff3d2;
+    box-shadow: 0 0 66px 30px rgba(255, 218, 165, 0.35);
+  }
+  .bc .meadow {
+    position: absolute;
+    left: -2%; right: -2%; bottom: -2%;
+    width: 104%; height: 58%;
+  }
+  .clover {
+    position: absolute;
+    width: clamp(72px, 8vw, 100px);
+    left: 72%; bottom: 26%;
+    animation: sway 7s ease-in-out infinite;
+    transform-origin: 50% 85%;
+  }
+  @keyframes sway {
+    from { transform: rotate(-3deg); }
+    to   { transform: rotate(2.5deg); }
+  }
+
+  /* ---------- Contenido ---------- */
+  main {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(14px, 3vh, 26px);
+    padding: 24px;
+    text-align: center;
+  }
+
+  .kicker {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    transition: color 2s ease;
+  }
+  .kicker .jp { opacity: 0.75; }
+
+  h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(48px, 9vw, 116px);
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+    transition: color 2s ease;
+  }
+
+  .sub {
+    max-width: 480px;
+    font-weight: 300;
+    font-size: clamp(14px, 2vw, 16.5px);
+    line-height: 1.75;
+    color: var(--ink-soft);
+    transition: color 2s ease;
+  }
+
+  /* kanji vertical discreto */
+  .kanji {
+    position: absolute;
+    right: clamp(18px, 7vw, 90px);
+    top: 50%;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", "MS Mincho", serif;
+    font-size: clamp(16px, 2.2vw, 22px);
+    letter-spacing: 0.5em;
+    opacity: 0.35;
+    user-select: none;
+  }
+
+  .hint {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  /* ---------- Selector de escenas ---------- */
+  .mode {
+    position: fixed;
+    bottom: 4.5vh;
+    left: 0; right: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    gap: clamp(18px, 4vw, 40px);
+  }
+  .mode button {
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.35;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 2px;
+    transition: opacity 0.4s ease, color 2s ease;
+  }
+  .mode button:hover { opacity: 0.75; }
+  .mode button.active { opacity: 1; }
+  .mode button .sw {
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    opacity: 0.9;
+  }
+  .mode button[data-s="ka"] .sw {
+    background: linear-gradient(135deg, #7f9c94, #f2b8cf);
+  }
+  .mode button[data-s="jk"] .sw {
+    background: linear-gradient(135deg, #9a90f2, #4e7de0);
+  }
+  .mode button[data-s="bc"] .sw {
+    background: linear-gradient(135deg, #58b07e, #e8d9a0);
+  }
+
+  /* ---------- Accesibilidad: menos movimiento ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    .petals { display: none; }
+    .petal { animation: none; }
+    .ripple { animation: none; opacity: 0.22; }
+    .gate, .gate2, .clover { animation: none; }
+  }
+
+  @media (max-width: 640px) {
+    .kanji { display: none; }
+  }
+</style>
+</head>
+<body class="v-ka">
+
+  <!-- ═══════════ 1 · KIMETSU NO YAIBA ═══════════ -->
+  <section class="scene ka on" data-s="ka">
+    <div class="sky"></div>
+    <div class="moon" aria-hidden="true"></div>
+
+    <svg class="hills" viewBox="0 0 1440 470" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,240 C180,180 380,160 570,196 C770,234 940,168 1120,164 C1300,162 1380,214 1440,220 L1440,470 L0,470 Z" fill="#3a3557"/>
+      <path d="M0,370 C200,334 380,300 580,332 C780,366 980,308 1180,322 C1330,334 1420,368 1440,360 L1440,470 L0,470 Z" fill="#2b2745"/>
+    </svg>
+
+    <div class="petals" id="petals" aria-hidden="true"></div>
+
+    <span class="ripple" style="--rd:0s" aria-hidden="true"></span>
+    <span class="ripple" style="--rd:3s" aria-hidden="true"></span>
+    <span class="ripple" style="--rd:6s" aria-hidden="true"></span>
+
+    <main>
+      <div class="kicker">Kimetsu no Yaiba · <span class="jp">呼吸の型</span></div>
+      <h1>Respira.</h1>
+      <p class="sub">
+        El agua no fuerza: rodea, acompaña y corta limpio cuando llega el turno.
+        Deja que la noche caiga como caen los pétalos, sin apresurarse.
+      </p>
+      <div class="hint">sigue la ola</div>
+      <div class="kanji" aria-hidden="true">呼吸</div>
+    </main>
+  </section>
+
+  <!-- ═══════════ 2 · JUJUTSU KAISEN ═══════════ -->
+  <section class="scene jk" data-s="jk">
+    <div class="sky"></div>
+
+    <div class="stars" id="stars-jk" aria-hidden="true"></div>
+
+    <div class="seam" aria-hidden="true"></div>
+    <div class="gate" aria-hidden="true"></div>
+    <div class="gate2" aria-hidden="true"></div>
+
+    <main>
+      <div class="kicker">Jujutsu Kaisen · <span class="jp">無量空処</span></div>
+      <h1>Infinidad.</h1>
+      <p class="sub">
+        Tu dominio personal empieza dentro: expande el alma despacio,
+        un límite a la vez, y el cielo entero cabe en esta pantalla.
+      </p>
+      <div class="hint">expande el alma</div>
+      <div class="kanji" aria-hidden="true">術式</div>
+    </main>
+  </section>
+
+  <!-- ═══════════ 3 · BLACK CLOVER ═══════════ -->
+  <section class="scene bc" data-s="bc">
+    <div class="sky"></div>
+    <div class="sun" aria-hidden="true"></div>
+
+    <svg class="meadow" viewBox="0 0 1440 440" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,190 C180,140 380,126 570,158 C770,192 940,132 1120,128 C1300,126 1380,168 1440,176 L1440,440 L0,440 Z" fill="#50795d"/>
+      <path d="M0,320 C200,288 380,256 580,286 C780,318 980,262 1180,276 C1330,288 1420,320 1440,312 L1440,440 L0,440 Z" fill="#3d6049"/>
+    </svg>
+
+    <svg class="clover" viewBox="0 0 120 130" aria-hidden="true">
+      <g fill="#2e6b43">
+        <path d="M60,54 C74,42 78,26 68,16 C63,10 57,12 60,18 C63,12 57,10 52,16 C42,26 46,42 60,54 Z" transform="rotate(0 60 60)"/>
+        <path d="M60,54 C74,42 78,26 68,16 C63,10 57,12 60,18 C63,12 57,10 52,16 C42,26 46,42 60,54 Z" transform="rotate(90 60 60)"/>
+        <path d="M60,54 C74,42 78,26 68,16 C63,10 57,12 60,18 C63,12 57,10 52,16 C42,26 46,42 60,54 Z" transform="rotate(180 60 60)"/>
+        <path d="M60,54 C74,42 78,26 68,16 C63,10 57,12 60,18 C63,12 57,10 52,16 C42,26 46,42 60,54 Z" transform="rotate(270 60 60)"/>
+        <path d="M56,64 C50,74 44,82 38,88 C44,86 54,80 60,72 Z"/>
+      </g>
+      <circle cx="60" cy="60" r="4.5" fill="#245536"/>
+    </svg>
+
+    <main>
+      <div class="kicker">Black Clover · <span class="jp">根性</span></div>
+      <h1>Niego la derrota.</h1>
+      <p class="sub">
+        Asta nació sin una gota de magia y la compensó con el músculo del empeño.
+        Dicen que el trébol de cinco hojas trae el grimorio: el tuyo se abre con cada intento.
+      </p>
+      <div class="hint">levántate una vez más</div>
+      <div class="kanji" aria-hidden="true">根性</div>
+    </main>
+  </section>
+
+  <!-- ═══════════ Selector ═══════════ -->
+  <div class="mode" role="group" aria-label="Mundo">
+    <button class="active" data-s="ka"><span class="sw"></span>Kimetsu</button>
+    <button data-s="jk"><span class="sw"></span>Jujutsu</button>
+    <button data-s="bc"><span class="sw"></span>Black Clover</button>
+  </div>
+
+<script>
+  /* ---------- Pétalos de sakura (generados) ---------- */
+  const petals = document.getElementById("petals");
+  for (let i = 0; i < 13; i++) {
+    const p = document.createElement("span");
+    p.className = "petal";
+    p.style.setProperty("--l",   (Math.random() * 100).toFixed(1) + "%");
+    p.style.setProperty("--s",   (9 + Math.random() * 8).toFixed(0) + "px");
+    p.style.setProperty("--d",   (16 + Math.random() * 12).toFixed(1) + "s");
+    p.style.setProperty("--dl",  (-Math.random() * 26).toFixed(1) + "s");
+    p.style.setProperty("--sw",  (5 + Math.random() * 3.5).toFixed(1) + "s");
+    p.style.setProperty("--sdl", (-Math.random() * 8).toFixed(1) + "s");
+    p.innerHTML = "<i></i>";
+    petals.appendChild(p);
+  }
+
+  /* ---------- Estrellas de Jujutsu (estáticas) ---------- */
+  const st = document.getElementById("stars-jk");
+  for (let i = 0; i < 16; i++) {
+    const s = document.createElement("i");
+    s.style.left = (Math.random() * 100).toFixed(1) + "%";
+    s.style.top  = (Math.random() * 38).toFixed(1) + "%";
+    st.appendChild(s);
+  }
+
+  /* ---------- Cambio de mundo ---------- */
+  const botones = document.querySelectorAll(".mode button");
+  const escenas = document.querySelectorAll(".scene");
+
+  function setScene(id) {
+    botones.forEach((b) => b.classList.toggle("active", b.dataset.s === id));
+    escenas.forEach((s) => s.classList.toggle("on", s.dataset.s === id));
+    document.body.classList.remove("v-ka", "v-jk", "v-bc");
+    document.body.classList.add("v-" + id);
+  }
+
+  botones.forEach((b) => b.addEventListener("click", () => setScene(b.dataset.s)));
+
+  /* flechas ← → para cambiar de mundo */
+  const orden = ["ka", "jk", "bc"];
+  addEventListener("keydown", (e) => {
+    const actual = orden.indexOf(document.querySelector(".scene.on").dataset.s);
+    if (e.key === "ArrowRight") setScene(orden[(actual + 1) % 3]);
+    if (e.key === "ArrowLeft")  setScene(orden[(actual + 2) % 3]);
+  });
+</script>
+</body>
+</html>

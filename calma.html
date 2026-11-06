@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Calma — una esquina serena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;1,300;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================
+     CALMA · escena mínima de amanecer y ocaso
+     Todo CSS, sin canvas, sin parpadeos ni glows
+     ============================================ */
+
+  :root {
+    --ink: #5d5470;
+    --ink-soft: rgba(93, 84, 112, 0.62);
+    --faint: rgba(93, 84, 112, 0.30);
+    --sun-core: #fff6e4;
+    --sun-glow: rgba(255, 219, 172, 0.75);
+    --cloud: rgba(255, 255, 255, 0.6);
+    --ring-line: rgba(93, 84, 112, 0.35);
+    --ring-fill: rgba(255, 255, 255, 0.35);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: "Manrope", "Segoe UI", system-ui, sans-serif;
+    color: var(--ink);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    transition: color 2.4s ease;
+  }
+
+  /* ---------- Escena ---------- */
+  .layer {
+    position: fixed;
+    inset: 0;
+    transition: opacity 2.6s ease;
+  }
+
+  .sky-dawn {
+    z-index: 0; opacity: 1;
+    background: linear-gradient(180deg,
+      #fdf6ee 0%,
+      #fceadb 26%,
+      #f6d9e3 48%,
+      #e9dbee 68%,
+      #dfe0f0 86%,
+      #d8d9ec 100%);
+  }
+  .sky-dusk {
+    z-index: 1; opacity: 0;
+    background: linear-gradient(180deg,
+      #2e2b4c 0%,
+      #453d68 24%,
+      #6f5783 44%,
+      #9c7690 62%,
+      #c89893 80%,
+      #dcae98 100%);
+  }
+  body.theme-dusk .sky-dawn { opacity: 0; }
+  body.theme-dusk .sky-dusk { opacity: 1; }
+
+  /* Sol — punto blando, sin neón */
+  .sun {
+    position: fixed;
+    z-index: 2;
+    width: clamp(90px, 12vw, 150px);
+    height: clamp(90px, 12vw, 150px);
+    left: 58%; top: 33%;
+    border-radius: 50%;
+    background-color: var(--sun-core);
+    box-shadow: 0 0 80px 42px var(--sun-glow);
+    transition: background-color 2.4s ease, box-shadow 2.4s ease;
+  }
+  body.theme-dusk .sun { --sun-core: #ffedd0; --sun-glow: rgba(255, 186, 148, 0.42); }
+
+  /* Estrellas — solo en ocaso */
+  .stars { z-index: 2; opacity: 0; transition: opacity 2.6s ease; }
+  body.theme-dusk .stars { opacity: 1; }
+  .stars i {
+    position: absolute;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: #fdf6e7;
+    animation: twinkle 5s ease-in-out infinite;
+  }
+  .stars i:nth-child(1) { left: 12%; top: 12%; }
+  .stars i:nth-child(2) { left: 22%; top: 26%; animation-delay: 1.2s; }
+  .stars i:nth-child(3) { left: 33%; top: 8%;  animation-delay: 2.4s; }
+  .stars i:nth-child(4) { left: 44%; top: 19%; animation-delay: 0.6s; }
+  .stars i:nth-child(5) { left: 70%; top: 10%; animation-delay: 1.8s; }
+  .stars i:nth-child(6) { left: 81%; top: 22%; animation-delay: 3.1s; }
+  .stars i:nth-child(7) { left: 90%; top: 14%; animation-delay: 2.0s; }
+  .stars i:nth-child(8) { left: 65%; top: 28%; animation-delay: 0.9s; }
+  .stars i:nth-child(9) { left:  8%; top: 34%; animation-delay: 2.8s; }
+  .stars i:nth-child(10){ left: 95%; top: 33%; animation-delay: 1.5s; }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.25; }
+    50%      { opacity: 0.85; }
+  }
+
+  /* Nubes finísimas, casi inmóviles */
+  .cloud {
+    position: fixed;
+    z-index: 3;
+    height: 46px;
+    border-radius: 100px;
+    background: var(--cloud);
+    filter: blur(7px);
+    opacity: 0.8;
+    transition: background 2.4s ease;
+  }
+  body.theme-dusk .cloud { --cloud: rgba(255, 236, 220, 0.22); }
+  .cloud.c1 { width: 300px; top: 16%; left: -20%; animation: drift 150s linear infinite; }
+  .cloud.c2 { width: 210px; top: 27%; left: -20%; animation: drift 190s linear infinite 60s; opacity: 0.6; }
+  .cloud.c3 { width: 260px; top: 10%; left: -20%; animation: drift 220s linear infinite 30s; opacity: 0.5; }
+  @keyframes drift {
+    from { transform: translateX(0); }
+    to   { transform: translateX(150vw); }
+  }
+
+  /* Neblina suave en el horizonte */
+  .haze { z-index: 4; }
+  .haze.dawn {
+    opacity: 1;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(255, 246, 236, 0.5) 42%,
+      rgba(255, 246, 236, 0.35) 55%,
+      transparent 75%);
+  }
+  .haze.dusk {
+    opacity: 0;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(255, 226, 205, 0.22) 45%,
+      rgba(255, 226, 205, 0.16) 58%,
+      transparent 75%);
+  }
+  body.theme-dusk .haze.dawn { opacity: 0; }
+  body.theme-dusk .haze.dusk { opacity: 1; }
+
+  .hills { z-index: 5; }
+  .hills.dawn { opacity: 1; }
+  .hills.dusk { opacity: 0; }
+  body.theme-dusk .hills.dawn { opacity: 0; }
+  body.theme-dusk .hills.dusk { opacity: 1; }
+
+  /* ---------- Contenido ---------- */
+  main {
+    position: relative;
+    z-index: 10;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(14px, 3vh, 26px);
+    padding: 24px;
+    text-align: center;
+  }
+
+  .kicker {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    transition: color 2.4s ease;
+  }
+
+  h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(52px, 9.5vw, 124px);
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+    transition: color 2.4s ease;
+  }
+
+  .sub {
+    max-width: 470px;
+    font-weight: 300;
+    font-size: clamp(14px, 2vw, 16.5px);
+    line-height: 1.75;
+    color: var(--ink-soft);
+    transition: color 2.4s ease;
+  }
+
+  /* Respiración: un anillo que late despacio (4 s entra, 4 s sale) */
+  .breath {
+    margin-top: clamp(6px, 2vh, 18px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .ring {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ring-line);
+    background: var(--ring-fill);
+    animation: breathe 8s ease-in-out infinite;
+    transition: border-color 2.4s ease, background 2.4s ease;
+  }
+  body.theme-dusk .ring { --ring-line: rgba(250, 236, 220, 0.4); --ring-fill: rgba(255, 236, 214, 0.10); }
+  @keyframes breathe {
+    0%   { transform: scale(0.82); }
+    50%  { transform: scale(1.16); }
+    100% { transform: scale(0.82); }
+  }
+
+  .b-label {
+    position: relative;
+    height: 14px;
+    width: 130px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    transition: color 2.4s ease;
+  }
+  .b-label span { position: absolute; inset: 0; }
+  .b-label .in  { animation: phaseIn 8s linear infinite; }
+  .b-label .out { animation: phaseOut 8s linear infinite; }
+  .b-label .still { display: none; }
+  @keyframes phaseIn  { 0%{opacity:1} 40%{opacity:1} 48%{opacity:0} 92%{opacity:0} 100%{opacity:1} }
+  @keyframes phaseOut { 0%{opacity:0} 40%{opacity:0} 48%{opacity:1} 92%{opacity:1} 100%{opacity:0} }
+
+  /* Cambio de momento del día */
+  .mode {
+    position: fixed;
+    bottom: 4.5vh;
+    left: 0; right: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    gap: 34px;
+  }
+  .mode button {
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.38;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 2px;
+    transition: opacity 0.4s ease, color 2.4s ease;
+  }
+  .mode button:hover { opacity: 0.75; }
+  .mode button.active { opacity: 1; }
+  .mode button .d {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .mode button.active .d { opacity: 1; }
+
+  /* ---------- Accesibilidad: menos movimiento ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    .ring { animation: none; transform: scale(0.95); }
+    .cloud { display: none; }
+    .stars i { animation: none; opacity: 0.6; }
+    .b-label .in, .b-label .out { animation: none; opacity: 0; }
+    .b-label .still { display: block; }
+  }
+
+  @media (max-width: 640px) {
+    .sun { left: 55%; top: 30%; }
+    .h1 { font-size: 46px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Cielos superpuestos (se funden entre sí) -->
+  <div class="layer sky-dawn"></div>
+  <div class="layer sky-dusk"></div>
+
+  <div class="stars" aria-hidden="true">
+    <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+  </div>
+
+  <div class="sun" aria-hidden="true"></div>
+
+  <div class="cloud c1" aria-hidden="true"></div>
+  <div class="cloud c2" aria-hidden="true"></div>
+  <div class="cloud c3" aria-hidden="true"></div>
+
+  <div class="layer haze dawn" aria-hidden="true"></div>
+  <div class="layer haze dusk" aria-hidden="true"></div>
+
+  <!-- Colinas (amanecer) -->
+  <svg class="layer hills dawn" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,540 C180,468 340,452 520,494 C700,536 830,468 1000,458 C1170,448 1300,504 1440,520 L1440,800 L0,800 Z" fill="#edcfd6"/>
+    <path d="M0,618 C160,582 300,542 480,584 C660,626 790,574 960,584 C1130,594 1280,640 1440,610 L1440,800 L0,800 Z" fill="#d9bacb"/>
+    <path d="M0,700 C200,658 360,644 560,676 C760,708 940,654 1140,670 C1290,682 1400,700 1440,694 L1440,800 L0,800 Z" fill="#c6a6bd"/>
+  </svg>
+
+  <!-- Colinas (ocaso) -->
+  <svg class="layer hills dusk" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,540 C180,468 340,452 520,494 C700,536 830,468 1000,458 C1170,448 1300,504 1440,520 L1440,800 L0,800 Z" fill="#5c4a6c"/>
+    <path d="M0,618 C160,582 300,542 480,584 C660,626 790,574 960,584 C1130,594 1280,640 1440,610 L1440,800 L0,800 Z" fill="#4a3d5b"/>
+    <path d="M0,700 C200,658 360,644 560,676 C760,708 940,654 1140,670 C1290,682 1400,700 1440,694 L1440,800 L0,800 Z" fill="#383047"/>
+  </svg>
+
+  <main>
+    <div class="kicker" id="kicker">calma</div>
+
+    <h1>Sin prisa.</h1>
+
+    <p class="sub">
+      Una esquina serena de tu pantalla. Mira las colinas,
+      sigue el anillo con tu respiración y vuelve cuando quieras.
+    </p>
+
+    <div class="breath">
+      <div class="ring" aria-hidden="true"></div>
+      <div class="b-label" aria-hidden="true">
+        <span class="in">inhala</span>
+        <span class="out">exhala</span>
+        <span class="still">late a tu ritmo</span>
+      </div>
+    </div>
+  </main>
+
+  <div class="mode" role="group" aria-label="Momento del día">
+    <button class="active" data-theme="amanecer"><span class="d"></span>Amanecer</button>
+    <button data-theme="ocaso"><span class="d"></span>Ocaso</button>
+  </div>
+
+<script>
+  /* ---------- Reloj discreto en el rótulo ---------- */
+  const dias = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+  const meses = ["enero","febrero","marzo","abril","mayo","junio",
+                 "julio","agosto","septiembre","octubre","noviembre","diciembre"];
+
+  const kicker = document.getElementById("kicker");
+
+  function tick() {
+    const d = new Date();
+    const hh = String(d.getHours()).padStart(2, "0");
+    const mm = String(d.getMinutes()).padStart(2, "0");
+    kicker.textContent =
+      `${dias[d.getDay()]} · ${d.getDate()} de ${meses[d.getMonth()]} · ${hh}:${mm}`;
+  }
+  tick();
+  setInterval(tick, 15000);
+
+  /* ---------- Amanecer / Ocaso ---------- */
+  const botones = document.querySelectorAll(".mode button");
+  botones.forEach((b) => {
+    b.addEventListener("click", () => {
+      botones.forEach((x) => x.classList.remove("active"));
+      b.classList.add("active");
+      document.body.classList.toggle("theme-dusk", b.dataset.theme === "ocaso");
+    });
+  });
+</script>
+</body>
+</html>

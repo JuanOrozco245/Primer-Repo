@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Black Clover — Grimorio del Reino Clover</title>
+<meta name="description" content="Fan page de Black Clover: personajes, escuadrones de Caballeros Mágicos, arcos de la historia, tipos de magia, soundtrack y más." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍀</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Manrope:wght@300;400;500;600;800&display=swap" rel="stylesheet" />
+<style>
+  /* =====================================================
+     BLACK CLOVER · Fan page "Grimorio del Reino Clover"
+     CSS puro + JS vanilla · sin imágenes externas
+     Paleta: negro grimoire, oro, verde trébol, carmesí
+     ===================================================== */
+
+  :root {
+    --bg: #08080d;
+    --bg-2: #0d0d14;
+    --panel: rgba(255, 255, 255, 0.035);
+    --panel-2: rgba(255, 255, 255, 0.06);
+    --line: rgba(242, 193, 78, 0.16);
+    --line-soft: rgba(255, 255, 255, 0.08);
+    --gold: #f2c14e;
+    --gold-soft: #f7d77e;
+    --green: #43d477;
+    --green-deep: #1f7a45;
+    --crimson: #e23456;
+    --sky: #7cc4ff;
+    --violet: #a78bfa;
+    --silver: #cfd6e1;
+    --ink: #f4efe4;
+    --muted: rgba(244, 239, 228, 0.62);
+    --radius: 18px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background:
+      radial-gradient(1200px 700px at 85% -5%, rgba(242, 193, 78, 0.09), transparent 60%),
+      radial-gradient(1000px 700px at -10% 30%, rgba(67, 212, 119, 0.07), transparent 55%),
+      radial-gradient(900px 600px at 110% 75%, rgba(226, 52, 86, 0.06), transparent 55%),
+      var(--bg);
+    color: var(--ink);
+    font-family: "Manrope", "Segoe UI", system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: rgba(242, 193, 78, 0.35); }
+
+  h1, h2, h3, .serif { font-family: "Cinzel", Georgia, serif; }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { width: min(1180px, 92%); margin: 0 auto; }
+
+  /* ---------- Nav ---------- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px clamp(16px, 4vw, 40px);
+    background: rgba(8, 8, 13, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: "Cinzel", serif;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+  .brand svg { width: 26px; height: 26px; flex: none; }
+  .brand b { color: var(--gold); }
+  nav .links {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-left: auto;
+  }
+  nav .links::-webkit-scrollbar { display: none; }
+  nav .links a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--muted);
+    white-space: nowrap;
+    transition: color .25s, background .25s;
+  }
+  nav .links a:hover { color: var(--ink); background: var(--panel-2); }
+  nav .links a.on {
+    color: var(--gold);
+    background: rgba(242, 193, 78, 0.1);
+  }
+  nav .cta-mini {
+    flex: none;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: #120d02;
+    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+    padding: 9px 16px;
+    border-radius: 999px;
+    box-shadow: 0 6px 20px rgba(242, 193, 78, 0.25);
+    transition: transform .2s, box-shadow .2s;
+  }
+  nav .cta-mini:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(242, 193, 78, 0.35); }
+
+  /* ---------- Hero ---------- */
+  header.hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding: 120px 0 80px;
+    overflow: hidden;
+  }
+  #fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+  .hero-inner { position: relative; z-index: 2; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--line);
+    background: rgba(242, 193, 78, 0.06);
+    padding: 8px 16px;
+    border-radius: 999px;
+  }
+  .badge span.dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 10px var(--green);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse { 50% { opacity: 0.35; } }
+
+  .hero h1 {
+    margin: 22px 0 8px;
+    font-size: clamp(3rem, 9vw, 6.6rem);
+    font-weight: 900;
+    line-height: 0.98;
+    letter-spacing: 0.04em;
+    background: linear-gradient(100deg, #fdf6e3 12%, var(--gold-soft) 38%, var(--gold) 55%, #b98a1d 78%, #fdf6e3 95%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: sheen 9s ease-in-out infinite;
+  }
+  @keyframes sheen { 50% { background-position: 100% 0; } }
+
+  .hero .sub {
+    max-width: 620px;
+    color: var(--muted);
+    font-size: clamp(1rem, 1.6vw, 1.14rem);
+  }
+  .hero .sub b { color: var(--ink); font-weight: 600; }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    border: 1px solid var(--line);
+    transition: transform .2s, box-shadow .25s, background .25s, border-color .25s;
+  }
+  .btn.primary {
+    color: #120d02;
+    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+    border-color: transparent;
+    box-shadow: 0 10px 30px rgba(242, 193, 78, 0.28);
+  }
+  .btn.primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(242, 193, 78, 0.4); }
+  .btn.ghost { color: var(--ink); background: rgba(255, 255, 255, 0.04); }
+  .btn.ghost:hover { transform: translateY(-3px); background: rgba(255, 255, 255, 0.09); border-color: rgba(242, 193, 78, 0.45); }
+
+  .hero-clover {
+    position: absolute;
+    right: clamp(-140px, 4vw, 9vw);
+    top: 50%;
+    translate: 0 -50%;
+    width: clamp(280px, 34vw, 520px);
+    opacity: 0.8;
+    z-index: 1;
+    animation: spin 34s linear infinite;
+    filter: drop-shadow(0 0 60px rgba(242, 193, 78, 0.25));
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 26px; left: 50%;
+    translate: -50% 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .scroll-hint::after {
+    content: "";
+    width: 1px; height: 42px;
+    background: linear-gradient(var(--gold), transparent);
+    animation: drip 2s ease-in-out infinite;
+  }
+  @keyframes drip { 50% { transform: scaleY(0.4); opacity: 0.5; } }
+
+  /* ---------- Secciones ---------- */
+  section { padding: clamp(70px, 9vw, 120px) 0; position: relative; }
+  section + section { border-top: 1px solid var(--line-soft); }
+
+  .kicker {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  h2.title { font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 700; letter-spacing: 0.02em; }
+  .title .l { color: var(--gold); }
+  .lead { color: var(--muted); max-width: 680px; margin-top: 12px; }
+  .center { text-align: center; }
+  .center .lead { margin-left: auto; margin-right: auto; }
+
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- Stats ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+  }
+  .stat {
+    background: var(--panel);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+    padding: 26px 22px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.7;
+  }
+  .stat .num {
+    font-family: "Cinzel", serif;
+    font-weight: 900;
+    font-size: clamp(2.1rem, 4.5vw, 3rem);
+    color: var(--gold);
+    line-height: 1.1;
+  }
+  .stat .lbl {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .stat .xtra { margin-top: 6px; font-size: 0.8rem; color: var(--muted); }
+
+  /* ---------- Personajes ---------- */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 34px 0 26px;
+  }
+  .tab {
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--line-soft);
+    background: var(--panel);
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 0.84rem;
+    cursor: pointer;
+    transition: all .25s;
+  }
+  .tab:hover { color: var(--ink); border-color: rgba(242, 193, 78, 0.4); }
+  .tab.on {
+    color: #120d02;
+    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+    border-color: transparent;
+  }
+  .grid-ch {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+    gap: 16px;
+  }
+  .ch {
+    --ac: var(--gold);
+    background: var(--panel);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: transform .3s, border-color .3s, box-shadow .3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .ch:hover {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--ac) 55%, transparent);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), 0 0 0 1px color-mix(in srgb, var(--ac) 30%, transparent);
+  }
+  .ch::after {
+    content: "";
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--ac) 22%, transparent), transparent 70%);
+    opacity: 0;
+    transition: opacity .35s;
+  }
+  .ch:hover::after { opacity: 1; }
+  .ch .sig {
+    width: 58px; height: 58px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 1.7rem;
+    background:
+      radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--ac) 40%, transparent), transparent 70%),
+      rgba(255, 255, 255, 0.05);
+    border: 1px solid color-mix(in srgb, var(--ac) 45%, transparent);
+    margin-bottom: 14px;
+  }
+  .ch h3 { font-size: 1.05rem; letter-spacing: 0.05em; }
+  .ch .role { font-size: 0.74rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: color-mix(in srgb, var(--ac) 80%, #fff 20%); margin: 4px 0 10px; }
+  .ch p { font-size: 0.86rem; color: var(--muted); }
+  .ch .mag {
+    margin-top: 12px;
+    font-size: 0.76rem;
+    color: var(--gold-soft);
+    border-top: 1px dashed var(--line-soft);
+    padding-top: 10px;
+  }
+  .ch.hide { display: none; }
+
+  /* ---------- Escuadrones ---------- */
+  .grid-sq {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .sq {
+    --ac: var(--gold);
+    background: var(--panel);
+    border: 1px solid var(--line-soft);
+    border-top: 4px solid var(--ac);
+    border-radius: var(--radius);
+    padding: 22px;
+    transition: transform .3s, box-shadow .3s;
+  }
+  .sq:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5), 0 0 30px color-mix(in srgb, var(--ac) 18%, transparent);
+  }
+  .sq .em { font-size: 1.8rem; }
+  .sq h3 { font-size: 1.1rem; margin-top: 8px; letter-spacing: 0.04em; }
+  .sq .en { font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+  .sq .cap { margin-top: 12px; font-size: 0.86rem; }
+  .sq .cap b { color: var(--ac); }
+  .sq p.mt { margin-top: 8px; font-size: 0.84rem; color: var(--muted); font-style: italic; }
+
+  /* ---------- Timeline ---------- */
+  .tl { position: relative; margin-top: 44px; padding-left: 26px; }
+  .tl::before {
+    content: "";
+    position: absolute;
+    left: 8px; top: 6px; bottom: 6px;
+    width: 2px;
+    background: linear-gradient(var(--gold), var(--green), var(--crimson));
+    opacity: 0.55;
+  }
+  .t-item { position: relative; padding: 0 0 34px 22px; }
+  .t-item::before {
+    content: "";
+    position: absolute;
+    left: -24px; top: 8px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 12px rgba(242, 193, 78, 0.5);
+  }
+  .t-item h3 { font-size: 1.06rem; letter-spacing: 0.04em; }
+  .t-item .eps {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--green);
+    border: 1px solid rgba(67, 212, 119, 0.35);
+    background: rgba(67, 212, 119, 0.07);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin: 6px 0 8px;
+  }
+  .t-item p { color: var(--muted); font-size: 0.9rem; max-width: 720px; }
+
+  /* ---------- Magia ---------- */
+  .grid-mg {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .mg {
+    background: linear-gradient(160deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: transform .3s, border-color .3s;
+  }
+  .mg:hover { transform: translateY(-6px); border-color: rgba(242, 193, 78, 0.4); }
+  .mg .ic { font-size: 1.9rem; }
+  .mg h3 { font-size: 1.02rem; margin: 12px 0 8px; letter-spacing: 0.05em; }
+  .mg p { font-size: 0.87rem; color: var(--muted); }
+
+  /* ---------- Música / Obra ---------- */
+  .grid-obra {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .ob {
+    background: var(--panel);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: transform .3s, box-shadow .3s;
+  }
+  .ob:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,.45); }
+  .ob .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #120d02;
+    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .ob .tag.alt { background: none; color: var(--green); border: 1px solid rgba(67, 212, 119, 0.4); }
+  .ob .tag.crim { background: none; color: var(--crimson); border: 1px solid rgba(226, 52, 86, 0.4); }
+  .ob h3 { font-size: 1.05rem; letter-spacing: 0.04em; }
+  .ob p { margin-top: 8px; font-size: 0.87rem; color: var(--muted); }
+  .ob ul { margin: 10px 0 0 18px; font-size: 0.87rem; color: var(--muted); }
+  .ob li { margin: 5px 0; }
+  .ob li b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- Citas ---------- */
+  .quote-zone {
+    max-width: 780px;
+    margin: 44px auto 0;
+    text-align: center;
+    background: linear-gradient(160deg, rgba(242, 193, 78, 0.07), rgba(255,255,255,0.02));
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: clamp(30px, 5vw, 54px);
+    position: relative;
+  }
+  .quote-zone .qmark {
+    font-family: "Cinzel", serif;
+    font-size: 3.4rem;
+    color: var(--gold);
+    line-height: 1;
+    opacity: 0.85;
+  }
+  .q-slide { display: none; }
+  .q-slide.on { display: block; animation: qin .6s ease; }
+  @keyframes qin { from { opacity: 0; transform: translateY(10px); } }
+  .q-slide p.txt {
+    font-family: "Cinzel", serif;
+    font-size: clamp(1.1rem, 2.6vw, 1.5rem);
+    line-height: 1.55;
+    margin-top: 10px;
+  }
+  .q-slide .who {
+    margin-top: 18px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .q-slide .who i { color: var(--muted); letter-spacing: 0.1em; font-style: normal; font-weight: 500; text-transform: none; }
+  .q-nav { display: flex; justify-content: center; gap: 12px; margin-top: 26px; }
+  .q-btn {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--line-soft);
+    color: var(--gold);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all .25s;
+  }
+  .q-btn:hover { background: rgba(242, 193, 78, 0.15); border-color: var(--gold); }
+  .q-dots { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
+  .q-dot { width: 8px; height: 8px; border-radius: 999px; background: rgba(255,255,255,0.18); transition: all .3s; cursor: pointer; }
+  .q-dot.on { width: 22px; background: var(--gold); }
+
+  /* ---------- Datos curiosos ---------- */
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-top: 40px; }
+  .fact {
+    display: flex; gap: 14px;
+    background: var(--panel);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: border-color .3s, transform .3s;
+  }
+  .fact:hover { border-color: rgba(67, 212, 119, 0.45); transform: translateY(-4px); }
+  .fact .n {
+    flex: none;
+    width: 38px; height: 38px;
+    border-radius: 12px;
+    display: grid; place-items: center;
+    font-family: "Cinzel", serif;
+    font-weight: 900;
+    background: linear-gradient(135deg, rgba(67, 212, 119, 0.25), rgba(67, 212, 119, 0.06));
+    border: 1px solid rgba(67, 212, 119, 0.4);
+    color: var(--green);
+    font-size: 0.95rem;
+  }
+  .fact p { font-size: 0.88rem; color: var(--muted); }
+  .fact p b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- Sorteo ---------- */
+  .sorteo {
+    max-width: 640px;
+    margin: 44px auto 0;
+    background:
+      radial-gradient(400px 240px at 50% -40%, rgba(242, 193, 78, 0.14), transparent 70%),
+      var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: clamp(28px, 5vw, 46px);
+    text-align: center;
+  }
+  .grimoire-btn {
+    font-family: "Cinzel", serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--gold-soft);
+    background: linear-gradient(160deg, rgba(242, 193, 78, 0.12), rgba(0,0,0,0.3));
+    border: 1px solid rgba(242, 193, 78, 0.4);
+    padding: 18px 34px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .3s, background .3s;
+    box-shadow: 0 0 0 rgba(242, 193, 78, 0);
+  }
+  .grimoire-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(242, 193, 78, 0.25); }
+  .grimoire-btn:active { transform: scale(0.97); }
+  .sorteo-result {
+    margin-top: 28px;
+    min-height: 130px;
+    display: grid;
+    place-items: center;
+  }
+  .result-card {
+    --ac: var(--gold);
+    width: 100%;
+    border: 1px solid color-mix(in srgb, var(--ac) 55%, transparent);
+    border-radius: 16px;
+    padding: 20px;
+    background: linear-gradient(160deg, color-mix(in srgb, var(--ac) 12%, transparent), rgba(0,0,0,0.25));
+    animation: qiah .55s ease;
+  }
+  @keyframes qiah { from { opacity: 0; transform: scale(.92); } }
+  .result-card .re { font-size: 2.2rem; }
+  .result-card h3 { margin-top: 8px; font-size: 1.25rem; letter-spacing: 0.05em; }
+  .result-card .capr { color: var(--muted); font-size: 0.88rem; margin-top: 4px; }
+  .result-card .why { margin-top: 10px; font-size: 0.88rem; color: var(--ink); font-style: italic; }
+  .sorteo .hint { margin-top: 22px; font-size: 0.78rem; color: var(--muted); letter-spacing: 0.06em; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 46px 0 60px;
+    text-align: center;
+  }
+  footer .clov { font-size: 1.6rem; }
+  footer h3 { letter-spacing: 0.24em; margin-top: 10px; font-size: 0.95rem; }
+  footer p { color: var(--muted); font-size: 0.84rem; margin-top: 10px; }
+  footer .mini { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; font-size: 0.72rem; color: var(--muted); }
+  footer .mini span { border: 1px solid var(--line-soft); border-radius: 999px; padding: 5px 12px; }
+
+  /* ---------- Sparkles (click) ---------- */
+  .spark {
+    position: fixed;
+    z-index: 90;
+    width: 8px; height: 8px;
+    pointer-events: none;
+    border-radius: 2px;
+    animation: spl .8s ease forwards;
+  }
+  @keyframes spl {
+    from { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+    to { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0.1); opacity: 0; }
+  }
+
+  /* ---------- Responsive / accesibilidad ---------- */
+  @media (max-width: 720px) {
+    nav .cta-mini { display: none; }
+    .hero-clover { opacity: 0.35; right: -30%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; transition-duration: 0.15s !important; }
+    #fx { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav>
+  <a class="brand" href="#inicio">
+    <svg viewBox="0 0 200 200" aria-hidden="true">
+      <g fill="#43d477" opacity="0.9">
+        <ellipse cx="100" cy="55" rx="24" ry="38" transform="rotate(0 100 100)"/>
+        <ellipse cx="100" cy="55" rx="24" ry="38" transform="rotate(72 100 100)"/>
+        <ellipse cx="100" cy="55" rx="24" ry="38" transform="rotate(144 100 100)"/>
+        <ellipse cx="100" cy="55" rx="24" ry="38" transform="rotate(216 100 100)"/>
+        <ellipse cx="100" cy="55" rx="24" ry="38" transform="rotate(288 100 100)"/>
+      </g>
+      <circle cx="100" cy="100" r="14" fill="#f2c14e"/>
+    </svg>
+    BLACK&nbsp;<b>CLOVER</b>
+  </a>
+  <div class="links">
+    <a href="#inicio" class="on">Inicio</a>
+    <a href="#personajes">Personajes</a>
+    <a href="#escuadrones">Escuadrones</a>
+    <a href="#arcos">Arcos</a>
+    <a href="#magia">Magia</a>
+    <a href="#obra">Obra</a>
+    <a href="#datos">Datos</a>
+    <a href="#sorteo">Sorteo</a>
+  </div>
+  <a class="cta-mini" href="#sorteo">🪄 Sortea tu escuadrón</a>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="inicio">
+  <canvas id="fx"></canvas>
+
+  <svg class="hero-clover" viewBox="0 0 200 200" aria-hidden="true">
+    <defs>
+      <linearGradient id="clvg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#f7d77e"/>
+        <stop offset="60%" stop-color="#f2c14e"/>
+        <stop offset="100%" stop-color="#8a6315"/>
+      </linearGradient>
+    </defs>
+    <g fill="url(#clvg)" opacity="0.9">
+      <ellipse cx="100" cy="53" rx="23" ry="37"/>
+      <ellipse cx="100" cy="53" rx="23" ry="37" transform="rotate(72 100 100)"/>
+      <ellipse cx="100" cy="53" rx="23" ry="37" transform="rotate(144 100 100)"/>
+      <ellipse cx="100" cy="53" rx="23" ry="37" transform="rotate(216 100 100)"/>
+      <ellipse cx="100" cy="53" rx="23" ry="37" transform="rotate(288 100 100)"/>
+    </g>
+    <circle cx="100" cy="100" r="12" fill="#08080d" stroke="#f2c14e" stroke-width="3"/>
+  </svg>
+
+  <div class="wrap hero-inner">
+    <div class="reveal"><span class="badge"><span class="dot"></span> Reino Clover · Studio Pierrot · 2017 — 2021</span></div>
+    <div class="reveal" style="transition-delay:.1s">
+      <h1>BLACK<br>CLOVER</h1>
+    </div>
+    <div class="reveal" style="transition-delay:.2s">
+      <p class="sub">
+        En un mundo donde la magia lo es todo, un huérfano sin <b>ni un átomo de maná</b> jura convertirse en
+        <b>Rey Mago</b>. Con un grimorio de <b>cinco hojas</b>, espadas antimagia y una voluntad imposible de quebrar,
+        Asta y Yuno comienzan la carrera de sus vidas.
+      </p>
+    </div>
+    <div class="reveal" style="transition-delay:.3s">
+      <div class="cta-row">
+        <a class="btn primary" href="#personajes">⚔️ Conocer a los Toros Negros</a>
+        <a class="btn ghost" href="#arcos">📜 Ver la línea temporal</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">Desliza</div>
+</header>
+
+<main>
+  <!-- ================= STATS ================= -->
+  <section id="stats">
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat reveal"><div class="num" data-count="170">0</div><div class="lbl">Episodios del anime</div><div class="xtra">4 temporadas · 2017–2021</div></div>
+        <div class="stat reveal" style="transition-delay:.08s"><div class="num" data-count="368">0</div><div class="lbl">Capítulos del manga</div><div class="xtra">por Yūki Tabata</div></div>
+        <div class="stat reveal" style="transition-delay:.16s"><div class="num" data-count="9">0</div><div class="lbl">Escuadrones mágicos</div><div class="xtra">y un Rey Mago</div></div>
+        <div class="stat reveal" style="transition-delay:.24s"><div class="num" data-count="2023">0</div><div class="lbl">La película</div><div class="xtra">Sword of the Wizard King</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PERSONAJES ================= -->
+  <section id="personajes">
+    <div class="wrap">
+      <p class="kicker reveal">El clan del libro de cinco hojas</p>
+      <h2 class="title reveal">PERSONAJES <span class="l">CLAVE</span></h2>
+      <p class="lead reveal">Grandes héroes, nobles frágiles, demonios y mucho orgullo herido. Filtra por grupo y pásale el cursor a cada carta para sentir la magia.</p>
+
+      <div class="tabs reveal" id="charTabs">
+        <button class="tab on" data-f="all">Todos</button>
+        <button class="tab" data-f="bull">🐂 Toros Negros</button>
+        <button class="tab" data-f="ally">🤝 Aliados del reino</button>
+        <button class="tab" data-f="villain">😈 Villanos</button>
+      </div>
+
+      <div class="grid-ch" id="charGrid"></div>
+    </div>
+  </section>
+
+  <!-- ================= ESCUADRONES ================= -->
+  <section id="escuadrones">
+    <div class="wrap">
+      <p class="kicker reveal">Caballeros Mágicos</p>
+      <h2 class="title reveal">LAS <span class="l">9</span> ÓRDENES</h2>
+      <p class="lead reveal">Nueve escuadrones protegen el Reino Clover bajo el mando del Rey Mago. Cada uno con su capitán, su color… y su reputación. Los Toros Negros son los descartados del reino… hasta que dejan de serlo.</p>
+      <div class="grid-sq" id="sqGrid"></div>
+    </div>
+  </section>
+
+  <!-- ================= ARCOS ================= -->
+  <section id="arcos">
+    <div class="wrap">
+      <p class="kicker reveal">Historia</p>
+      <h2 class="title reveal">LÍNEA <span class="l">TEMPORAL</span> DE ARCOS</h2>
+      <p class="lead reveal">De la aldea rural al trance contra demonios: los grandes arcos de la historia (duraciones aproximadas en episodios).</p>
+      <div class="tl" id="tlWrap"></div>
+    </div>
+  </section>
+
+  <!-- ================= MAGIA ================= -->
+  <section id="magia">
+    <div class="wrap">
+      <p class="kicker reveal">Grimorios y hechizos</p>
+      <h2 class="title reveal">TIPOS DE <span class="l">MAGIA</span></h2>
+      <p class="lead reveal">En el mundo de Black Clover el maná está en el aire: cada persona lo canaliza con un grimorio. Pero hay poderes que rompen las reglas…</p>
+      <div class="grid-mg">
+        <div class="mg reveal"><div class="ic">✨</div><h3>Maná y afinidades</h3><p>Todos nacen con una afinidad natural: fuego, agua, viento, tierra, luz, oscuridad… El nivel de maná marca la diferencia entre la nobleza y la plebe.</p></div>
+        <div class="mg reveal" style="transition-delay:.06s"><div class="ic">📖</div><h3>Grimorios</h3><p>Grimorios con 3 hojas se entregan a la mayoría; con 4 hojas, a los escogidos por el destino. El de 5 hojas guarda algo terrible: un demonio.</p></div>
+        <div class="mg reveal" style="transition-delay:.12s"><div class="ic">🗡️</div><h3>Antimagia</h3><p>El don imposible de Asta: anula y corta hechizos con espadas que provienen del lado oscuro del grimorio. Nula contra lo físico… letal contra la magia.</p></div>
+        <div class="mg reveal" style="transition-delay:.18s"><div class="ic">🌀</div><h3>Zona de maná</h3><p>Técnica de élite: envolver el cuerpo en el maná del entorno para percibirlo todo y moverse a velocidades absurdas. Los fuertes la dominan; los monstruos, van más allá.</p></div>
+        <div class="mg reveal" style="transition-delay:.24s"><div class="ic">🧝</div><h3>Magia de espíritus</h3><p>Unirse a un espíritu (Sylph el viento, Salamander el fuego, Undine el agua…) multiplica el poder y permite la fusión conocida como Union Mágica.</p></div>
+        <div class="mg reveal" style="transition-delay:.3s"><div class="ic">🌑</div><h3>Magia prohibida</h3><p>Rituales que traen demonios, sellos eternos y maldiciones como las de Megicula. Lo que el reino prohibió… y lo que mueve la guerra detrás de las cortinas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= OBRA / MÚSICA ================= -->
+  <section id="obra">
+    <div class="wrap">
+      <p class="kicker reveal">Detrás del trébol</p>
+      <h2 class="title reveal">LA OBRA Y SU <span class="l">SOUNDTRACK</span></h2>
+      <p class="lead reveal">Manga, anime, película y una banda sonora que acompaña cada carga heroica.</p>
+      <div class="grid-obra">
+        <div class="ob reveal">
+          <span class="tag">Manga</span>
+          <h3>Yūki Tabata · Weekly Shōnen Jump</h3>
+          <p>Serializado desde 2015, con un estilo que mezcla shōnen clásico y magia brutal. Concluyó con <b>368 capítulos y 28 volúmenes</b>, dejando la historia completa de Asta y Yuno.</p>
+          <ul>
+            <li><b>2015:</b> comienza el manga</li>
+            <li><b>Más de 10 millones</b> de copias en circulación</li>
+            <li><b>2025:</b> capítulo final</li>
+          </ul>
+        </div>
+        <div class="ob reveal" style="transition-delay:.08s">
+          <span class="tag alt">Anime TV</span>
+          <h3>Studio Pierrot · 170 episodios</h3>
+          <p>Emitido de 2017 a 2021, con dirección de <b>Tatsuya Yoshihara</b> y música original de <b>Minako Seki</b>. La adaptación abarca desde el examen de caballeros hasta la guerra contra la Triada Oscura del Reino Spade.</p>
+          <ul>
+            <li>Seiyūs: <b>Gakuto Kajiwara</b> (Asta), <b>Nobunaga Shimazaki</b> (Yuno), <b>Kana Yūki</b> (Noelle), <b>Katsuyuki Konishi</b> (Yami)</li>
+          </ul>
+        </div>
+        <div class="ob reveal" style="transition-delay:.16s">
+          <span class="tag">Opening themes</span>
+          <h3>Canciones inolvidables</h3>
+          <p>Entre los openings que marcaron a toda una generación:</p>
+          <ul>
+            <li><b>“Black Rover”</b> (Vickeblanka)</li>
+            <li><b>“Guess Who Is Back”</b> (Kumi Koda)</li>
+            <li><b>“Everlasting Shine”</b> (Tomorrow X Together)</li>
+          </ul>
+        </div>
+        <div class="ob reveal" style="transition-delay:.24s">
+          <span class="tag crim">Película</span>
+          <h3>Sword of the Wizard King (2023)</h3>
+          <p>Película original de Netflix dirigida por <b>Ayataka Tanemura</b>: un Rey Mago “ideal” regresado del pasado reta los ideales del presente. Acción al máximo y emoción al máximo.</p>
+          <ul>
+            <li>Estreno mundial en <b>Netflix</b> (2023)</li>
+            <li>Entró al Top 10 en decenas de países</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CITAS ================= -->
+  <section id="citas">
+    <div class="wrap center">
+      <p class="kicker reveal">Frases para elevar el maná</p>
+      <h2 class="title reveal">CITAS <span class="l">CÉLEBRES</span></h2>
+    </div>
+    <div class="wrap">
+      <div class="quote-zone reveal" id="quoteZone">
+        <div class="qmark">❝</div>
+        <div id="quoteTrack"></div>
+        <div class="q-nav">
+          <button class="q-btn" id="qPrev" aria-label="Anterior">‹</button>
+          <button class="q-btn" id="qNext" aria-label="Siguiente">›</button>
+        </div>
+        <div class="q-dots" id="qDots"></div>
+      </div>
+      <p class="center lead reveal" style="margin-top:14px; font-size:0.8rem;">(frases adaptadas al español, no literal de ningún subtítulo)</p>
+    </div>
+  </section>
+
+  <!-- ================= DATOS ================= -->
+  <section id="datos">
+    <div class="wrap">
+      <p class="kicker reveal">Nivel: libro abierto</p>
+      <h2 class="title reveal">DATOS <span class="l">CURIOSOS</span></h2>
+      <div class="facts">
+        <div class="fact reveal"><div class="n">1</div><p><b>El trébol y sus hojas:</b> en la leyenda del reino, la primera hoja es la esperanza, la segunda la fe, la tercera el amor… y si aparece una cuarta, la buena suerte. Cuando crece la <b>quinta</b>, en su lugar aparece un <b>demonio</b>. 🍀</p></div>
+        <div class="fact reveal" style="transition-delay:.06s"><div class="n">2</div><p><b>Gakuto Kajiwara</b>, la voz japonesa de Asta, logró aquí su <b>primer papel protagónico</b>. Sus gritos agotadores se convirtieron en marca registrada del personaje. 🗣️</p></div>
+        <div class="fact reveal" style="transition-delay:.12s"><div class="n">3</div><p><b>Studio Pierrot</b> (el estudio del anime) es el mismo de <b>Naruto</b>, <b>Bleach</b> y <b>Yū Yū Hakusho</b>. Black Clover hereda esa experiencia en batallas shōnen. 🎬</p></div>
+        <div class="fact reveal" style="transition-delay:.18s"><div class="n">4</div><p><b>Nero (Secre Swanwing)</b> permaneció convertida en pájaro durante <b>500 años</b>, sellando al primer Rey Mago tras la batalla contra el demonio. 🐦</p></div>
+        <div class="fact reveal" style="transition-delay:.24s"><div class="n">5</div><p><b>Asta y Yuno</b> fueron abandonados juntos en la misma iglesia de la aldea Hage… y terminan siendo el corazón de dos reinos enemistados. Destino con humor. 👶</p></div>
+        <div class="fact reveal" style="transition-delay:.3s"><div class="n">6</div><p><b>Los Toros Negros</b> están formados por los caballeros que nadie quería: rateros, habladores, traumas por doquier… y aun así se volvieron el escuadrón más fuerte de la serie. 🐂</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SORTEO ================= -->
+  <section id="sorteo">
+    <div class="wrap center">
+      <p class="kicker reveal">Prueba tu destino</p>
+      <h2 class="title reveal">SORTEO DEL <span class="l">GRIMORIO</span></h2>
+      <p class="lead reveal center">En el examen de admisión, el grimorio elige al mago. Abre el libro… y descubre a qué escuadrón te convocan.</p>
+      <div class="sorteo reveal">
+        <button class="grimoire-btn" id="rollBtn">📖 Abrir el grimorio</button>
+        <div class="sorteo-result" id="rollOut">
+          <p style="color: var(--muted); font-size: .9rem;">El libro está cerrado… por ahora.</p>
+        </div>
+        <p class="hint">Haz clic cuantas veces quieras. El destino nunca se cansa. ✨</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="clov">🍀</div>
+    <h3>BLACK CLOVER</h3>
+    <p>“El que no se rinde jamás… ese es mi estilo.” — Asta</p>
+    <div class="mini">
+      <span>Fan page no oficial</span><span>Primer Repo</span><span>Hecho con 💚 y mucho maná</span>
+      <span>Basada en el manga de Yūki Tabata</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  "use strict";
+
+  /* ---------------- Utilidades ---------------- */
+  const $  = (s, c) => (c || document).querySelector(s);
+  const $$ = (s, c) => Array.prototype.slice.call((c || document).querySelectorAll(s));
+
+  /* ---------------- Datos: personajes ---------------- */
+  const GOLD = "#f2c14e", GREEN = "#43d477", CRIM = "#e23456", SILVER = "#cfd6e1", SKY = "#7cc4ff", VIOLET = "#a78bfa", CORAL = "#ff8d6b", AQUA = "#6fd8d2", BLUE = "#5ea1ff";
+
+  const CHARS = [
+    { n:"Asta", sig:"🗡️", team:"bull", ac:CRIM, role:"Toros Negros", m:"Antimagia · Grimorio de 5 hojas", p:"Huérfano de Hage sin maná, con músculos y una voluntad de acero. Sus espadas de antimagia anulan la magia de dioses y demonios." },
+    { n:"Noelle Silva", sig:"💧", team:"bull", ac:SKY, role:"Toros Negros · Realeza", m:"Magia de agua · Armadura Valkyria", p:"Huida de la casa Silva por no controlar su magia, se convirtió en una de las magas más fuertes del reino. Orgullo y lágrimas a partes iguales." },
+    { n:"Yami Sukehiro", sig:"🚬", team:"bull", ac:GOLD, role:"Capitán · Toros Negros", m:"Magia de oscuridad · Katana dimensional", p:"Forastero de otro país, líder de los descartados. Brusco, fumador y filosófico: “supera tus límites” es casi su mantra." },
+    { n:"Vanessa Enoteca", sig:"🃏", team:"bull", ac:VIOLET, role:"Toros Negros", m:"Magia del destino · Rosso/red", p:"La bruja tejedora del Hilo del Destino: volvió al Bosque de las Brujas del que huyó para aprender a reescribir la casualidad a favor de los suyos." },
+    { n:"Charmy Pappitson", sig:"🍯", team:"bull", ac:GOLD, role:"Toros Negros", m:"Magia de comida y algodón", p:"Media enana, toda glotonería. En batalla mezcla lana y comida en hechizos deliciosamente devastadores." },
+    { n:"Luck Voltia", sig:"⚡", team:"bull", ac:GOLD, role:"Toros Negros", m:"Magia de electricidad", p:"Sonríe solo cuando pelea. Su manía por la lucha profunda lo convierte en un rayo humano imparable." },
+    { n:"Magna Swing", sig:"🔥", team:"bull", ac:CRIM, role:"Toros Negros", m:"Magia de fuego · Patineta mágica", p:"Chico de barrio, esencia y patineta de fuego: su bravuconería esconde un corazón leal y una puntería letal." },
+    { n:"Finral Roulacase", sig:"🌌", team:"bull", ac:VIOLET, role:"Toros Negros", m:"Magia espacial · Portales", p:"El mejor transportista del reino… y el peor para decidirse por una chica. Sus portales ganan guerras y fugas." },
+    { n:"Gauche Adlai", sig:"🪞", team:"bull", ac:SILVER, role:"Toros Negros", m:"Magia de espejos", p:"Obsesionado con su hermanita Marie y con sus espejos que devuelven ataques como regalos duplicados." },
+    { n:"Gordon Agrippa", sig:"🦇", team:"bull", ac:VIOLET, role:"Toros Negros", m:"Magia de maldición", p:"Habla bajísimo y deforma cada frase… pero solo quiere amigos. Sus venenos y maldiciones salvan vidas." },
+    { n:"Grey", sig:"🎭", team:"bull", ac:SILVER, role:"Toros Negros", m:"Magia de transformación", p:"Tímida hasta la invisibilidad, cambia la forma de cualquier cosa: mejorar ropa, ríos… y murallas enteras." },
+    { n:"Henry Legolant", sig:"🏠", team:"bull", ac:GREEN, role:"Toros Negros", m:"Magia de reconfiguración", p:"Reordena la mansión entera como laberinto de trampas. Casi nunca sale de casa… y la casa es su arma." },
+    { n:"Secre / Nero", sig:"🐦", team:"bull", ac:SKY, role:"Toros Negros", m:"Magia de sellado", p:"La sirvienta del primer Rey Mago: 500 años convertida en ave para vigilar el sello del demonio. Su magia de sellado cambia el destino del reino." },
+    { n:"Zora Ideale", sig:"🪤", team:"bull", ac:CRIM, role:"Toros Negros", m:"Magia de trampas", p:"Cínico, socarrón y maestro del expediente X: la trampa que te atrapa hoy es la que te salva mañana. Hijo de un sirviente, con hambre de justicia." },
+    { n:"Nacht Faust", sig:"😈", team:"bull", ac:VIOLET, role:"Vice-capitán · Toros Negros", m:"Magia de sombras · Diablos gemelos", p:"Revelado en la recta final: el vice-capitán que nadie conocía. Frío, pragmático y dueño de cuatro demonios pactados." },
+    { n:"Yuno Grinberryall", sig:"🌪️", team:"ally", ac:GREEN, role:"Golden Dawn · Príncipe de Spade", m:"Magia de viento · Estrellas", p:"Rival eterno y hermano de leche de Asta. Talento puro, Sylph (espíritu del viento) a su lado y un escuadrón que lo adora. Jura ser Rey Mago." },
+    { n:"Julius Novachrono", sig:"⏳", team:"ally", ac:GOLD, role:"Rey Mago", m:"Magia de tiempo", p:"El mago más fuerte del reino, siempre de incógnito entre la gente común. Ama todo lo nuevo, especialmente el mañana." },
+    { n:"Mereoleona Vermillion", sig:"🦁", team:"ally", ac:CRIM, role:"Capitana · Leones Escarlata", m:"Magia de fuego · Maná real", p:"La leona del reino: puro instinto, sin trato de favor y con una Zona de Maná legendaria. Nada se le resiste." },
+    { n:"Fuegoleon Vermillion", sig:"🔥", team:"ally", ac:CRIM, role:"Capitán · Leones Escarlata", m:"Magia de fuego · Salamander", p:"Noble y ardiente: perdió un brazo y ganó el espíritu del fuego. Para él, un caballero se mide por el corazón." },
+    { n:"Nozel Silva", sig:"🌊", team:"ally", ac:SILVER, role:"Capitán · Águilas Plateadas", m:"Magia de mercurio", p:"Frío en el papel de hermano; derrite cuando de verdad importa. Uno de los capitanes más elegantes y letales del reino." },
+    { n:"Charlotte Roselei", sig:"🌹", team:"ally", ac:BLUE, role:"Capitana · Rosas Azules", m:"Magia de espinas azules", p:"Comandante de un escuadrón de mujeres y enamorada en secreto. Sus espinas azules cortan y protegen con la misma elegancia." },
+    { n:"William Vangeance", sig:"🌿", team:"ally", ac:GOLD, role:"Capitán · Golden Dawn", m:"Magia de luz · Árbol del mundo", p:"El capitán perfecto del escuadrón perfecto… escondiendo bajo la máscara algo más que cicatrices." },
+    { n:"Mimosa Vermillion", sig:"🌸", team:"ally", ac:GOLD, role:"Golden Dawn", m:"Magia de curación · Plantas", p:"Princesa sanadora que en combate armó su propia estrategia: flores que examinan, curan… ¡y explotan!" },
+    { n:"Rill Boismortier", sig:"🎨", team:"ally", ac:AQUA, role:"Capitán · Ciervos Aguamarina", m:"Magia pictomancia", p:"El capitán más joven: todo lo que pinta se hace realidad. Pinta un dragón y te vuela la cabeza." },
+    { n:"Patolli / Licht", sig:"🌗", team:"villain", ac:SKY, role:"Ojo del Sol de Medianoche", m:"Magia de luz · Elfa de la flecha", p:"El fantasma de los elfos traicionados por la humanidad: su sed de venganza confundió el destino con la maldición." },
+    { n:"Dante Zogratis", sig:"👑", team:"villain", ac:VIOLET, role:"Triada Oscura · Reino Spade", m:"Magia gravitacional · Lucifero", p:"Nivel 1 de la Triada: cruel, glacial y sonriente. Alberga en su cuerpo al demonio supremo Lucifero." },
+    { n:"Vanica Zogratis", sig:"💋", team:"villain", ac:CRIM, role:"Triada Oscura · Reino Spade", m:"Magia de sangre · Megicula", p:"La sádica amante del caos: guerra como diversión y peste como regalo. Bajo su risa opera la maldición de Megicula." },
+    { n:"Zenon Zogratis", sig:"🦴", team:"villain", ac:SILVER, role:"Triada Oscura · Reino Spade", m:"Magia de huesos · Beelzebub", p:"El frío matemático: huesos como flechas y espacio-tiempo torcido. Diezmó a Golden Dawn en un solo ataque." },
+    { n:"Lucifero", sig:"👣", team:"villain", ac:CRIM, role:"Rey de los demonios", m:"Magia de gravedad suprema", p:"El rey de los demonios, encarnación del egoísmo y la fuerza. Su descenso incompleto puso a Asta y Yuno al límite." },
+    { n:"Megicula", sig:"🕸️", team:"villain", ac:VIOLET, role:"Demonio de la maldición", m:"Magia de maldición y muerte", p:"Tejedor de maldiciones y plagas: su telaraña envenenó la realeza de dos reinos a lo largo de generaciones." }
+  ];
+
+  /* ---------------- Datos: escuadrones ---------------- */
+  const SQUADS = [
+    { es:"Amanecer Dorado", en:"Golden Dawn", cap:"William Vangeance", ic:"☀️", ac:GOLD,  wr:"El escuadrón más fuerte y con más nobles. Perfecto… hasta que la perfección se agrieta." },
+    { es:"Águilas Plateadas", en:"Silver Eagles", cap:"Nozel Silva", ic:"🦅", ac:SILVER, wr:"Elegancia y precisión, herederos de la casa Silva. Todo brilla… y también corta." },
+    { es:"Leones Escarlata", en:"Crimson Lion Kings", cap:"Fuegoleon y Mereoleona Vermillion", ic:"🦁", ac:CRIM, wr:"Nobleza ardiente. Aquí o te consumes de vergüenza… o aprendes a rugir." },
+    { es:"Rosas Azules", en:"Blue Roses", cap:"Charlotte Roselei", ic:"🌹", ac:BLUE, wr:"Solo mujeres… y espinas que no perdonan. La lealtad aquí se prueba más fuerte que el amor." },
+    { es:"Pavos Reales de Coral", en:"Coral Peacocks", cap:"Dorothy Unsworth", ic:"🦚", ac:CORAL, wr:"Viven dentro de un sueño… literalmente: el mundo de Dorothy atrapa magos enteros." },
+    { es:"Mantis Verdes", en:"Green Mantis", cap:"Jack el Destripador", ic:"🦗", ac:GREEN, wr:"Un escuadrón de cuchillas vivientes: su capitán solo entiende el mundo por cortes y análisis." },
+    { es:"Orcas Púrpura", en:"Purple Orcas", cap:"Kaiser Granvorka", ic:"🐋", ac:VIOLET, wr:"Un escuadrón de nobles y veteranos, purificado a base de segundas oportunidades." },
+    { es:"Toros Negros", en:"Black Bulls", cap:"Yami Sukehiro", ic:"🐂", ac:GOLD, wr:"El refugio de los descartados del reino: magos raros, pasados turbios y la familia más leal de todo Clover." },
+    { es:"Ciervos Aguamarina", en:"Aqua Deer", cap:"Rill Boismortier", ic:"🦌", ac:AQUA, wr:"El hogar del capitán más joven del reino: su pictomancia pinta dragones que escupen fuego literal." }
+  ];
+
+  /* ---------------- Datos: arcos ---------------- */
+  const ARCS = [
+    { t:"Examen de Caballeros Mágicos", e:"≈ eps. 1–3", p:"El torneo de admisión en la capital: desprecio para el chico sin un punto de maná, promesas de la infancia… y el momento en que el grimorio de cinco hojas brilló en mitad del examen." },
+    { t:"Aldea Saussy", e:"≈ eps. 3–4", p:"Primera misión: bandidos, un pueblo minero y la confirmación de que Asta puede con todo a pura fuerza y músculos." },
+    { t:"El calabozo mágico", e:"≈ eps. 5–9", p:"Rivalidades entre reinos por un dungeon repleto de reliquias. Yuno obtiene su segundo tesoro; Asta… su primera victoria seria." },
+    { t:"Asalto a la capital", e:"≈ eps. 10–17", p:"Ataque terrorista a la capital: capitanes heridos, la corte en alerta máxima y la sospecha de que alguien dentro del propio reino conspira." },
+    { t:"El Ojo del Sol de Medianoche", e:"≈ eps. 18–27", p:"Aparece el enemigo con la cara de Licht y un ejército de traidores: la semilla de la tragedia élfica de 500 años atrás." },
+    { t:"Templo del Fondo del Mar", e:"≈ eps. 28–39", p:"Bajo el mar vive el templo sagrado: magia de agua, un ataque élfico sorpresa y el despertar del verdadero poder de Noelle." },
+    { t:"Bosque de las Brujas", e:"≈ eps. 40–49", p:"En busca de un antídoto, el grupo llega al territorio de las brujas: la reina cobra su precio, Vanessa se enfrenta al hogar que la encerró y Asta demuestra de qué está hecho." },
+    { t:"Torneo de la Selección Real", e:"≈ eps. 50–69", p:"El reino organiza un torneo para elegir el equipo que defenderá Clover en el pulso contra el reino Corazón. Aquí destellan las nuevas generaciones." },
+    { t:"Invasión y Reencarnación de los Elfos", e:"≈ eps. 70–120", p:"La gran catástrofe de 500 años: elfos reencarnados, la verdad de Licht y el deseo de Asta de salvar a todos, incluso a los que desean matarlo." },
+    { t:"Entrenamiento en el reino Corazón", e:"≈ eps. 121–127", p:"Alianza con la princesa Lolopechka y los Guardias del Espíritu: preparación para luchar contra el demonio del reino Spade." },
+    { t:"La guerra contra la Triada Oscura", e:"≈ eps. 128–170", p:"El fin del arco del anime: la Triada Zogratis abre el portal de los demonios (Qliphoth), los reinos caen uno a uno y Asta y Yuno llevan el trébol a su límite." },
+    { t:"Epílogo del manga", e:"volumen 28 · 368 cap.", p:"La última etapa cierra la historia del trébol: el destino de Asta, el del reino y el verdadero significado de ser Rey Mago. Para saber cómo termina… ¡a leerlo! 🍀" }
+  ];
+
+  /* ---------------- Datos: citas ---------------- */
+  const QUOTES = [
+    { t:"¡Mi magia es la magia de no rendirme jamás!", w:"Asta", r:"Toros Negros" },
+    { t:"Superar tus límites es mi estilo de vida. Así que tú también… ¡supéralos!", w:"Yami Sukehiro", r:"Capitán de los Toros Negros" },
+    { t:"No importa de dónde vengas. En este reino, el mérito lo decide tu espada.", w:"Mereoleona Vermillion", r:"Capitana de los Leones Escarlata" },
+    { t:"Yo no soy la hermana fracasada de nadie. ¡Soy Noelle Silva, y soy fuerte!", w:"Noelle Silva", r:"Toros Negros" },
+    { t:"Ser Rey Mago no es un sueño por el poder… es para que nadie vuelva a ser despreciado por su origen.", w:"Julius Novachrono", r:"Rey Mago del Reino Clover" },
+    { t:"Yuno… la próxima vez que nos encontremos, yo seré el Rey Mago.", w:"Yuno Grinberryall", r:"Golden Dawn" }
+  ];
+
+  /* ---------------- Render: personajes ---------------- */
+  function renderChars(team) {
+    const grid = $("#charGrid");
+    grid.innerHTML = CHARS.map(function (c) {
+      const hide = (team && team !== "all" && c.team !== team) ? " hide" : "";
+      return '<article class="ch' + hide + '" data-team="' + c.team + '" style="--ac:' + c.ac + '">' +
+        '<div class="sig">' + c.sig + '</div>' +
+        '<h3 class="serif">' + c.n + '</h3>' +
+        '<div class="role">' + c.role + '</div>' +
+        '<p>' + c.p + '</p>' +
+        '<div class="mag">✦ ' + c.m + '</div>' +
+      '</article>';
+    }).join("");
+  }
+  renderChars("all");
+
+  /* ---------------- Render: escuadrones ---------------- */
+  $("#sqGrid").innerHTML = SQUADS.map(function (s) {
+    return '<article class="sq" style="--ac:' + s.ac + '">' +
+      '<div class="em">' + s.ic + '</div>' +
+      '<h3 class="serif">' + s.es + '</h3>' +
+      '<div class="en">' + s.en + '</div>' +
+      '<div class="cap">Capitán(a): <b>' + s.cap + '</b></div>' +
+      '<p class="mt">“' + s.wr + '”</p>' +
+    '</article>';
+  }).join("");
+
+  /* ---------------- Render: arcos ---------------- */
+  $("#tlWrap").innerHTML = ARCS.map(function (a) {
+    return '<div class="t-item reveal">' +
+      '<h3 class="serif">' + a.t + '</h3>' +
+      '<span class="eps">' + a.e + '</span>' +
+      '<p>' + a.p + '</p>' +
+    '</div>';
+  }).join("");
+
+  /* ---------------- Render: citas ---------------- */
+  const track = $("#quoteTrack"), dots = $("#qDots");
+  track.innerHTML = QUOTES.map(function (q, i) {
+    return '<div class="q-slide' + (i === 0 ? " on" : "") + '">' +
+      '<p class="txt">' + q.t + '</p>' +
+      '<div class="who">' + q.w + ' <i>· ' + q.r + '</i></div>' +
+    '</div>';
+  }).join("");
+  dots.innerHTML = QUOTES.map(function (_, i) {
+    return '<span class="q-dot' + (i === 0 ? " on" : "") + '" data-i="' + i + '"></span>';
+  }).join("");
+
+  let qi = 0, qTimer = null;
+  function showQuote(i) {
+    qi = (i + QUOTES.length) % QUOTES.length;
+    $$(".q-slide", track).forEach(function (s, k) { s.classList.toggle("on", k === qi); });
+    $$(".q-dot", dots).forEach(function (d, k) { d.classList.toggle("on", k === qi); });
+  }
+  function autoQuote() {
+    clearInterval(qTimer);
+    qTimer = setInterval(function () { showQuote(qi + 1); }, 5200);
+  }
+  $("#qPrev").addEventListener("click", function () { showQuote(qi - 1); autoQuote(); });
+  $("#qNext").addEventListener("click", function () { showQuote(qi + 1); autoQuote(); });
+  dots.addEventListener("click", function (e) {
+    const t = e.target.closest(".q-dot");
+    if (t) { showQuote(parseInt(t.dataset.i, 10)); autoQuote(); }
+  });
+  autoQuote();
+
+  /* ---------------- Tabs de personajes ---------------- */
+  $("#charTabs").addEventListener("click", function (e) {
+    const t = e.target.closest(".tab");
+    if (!t) return;
+    $$(".tab", this).forEach(function (b) { b.classList.remove("on"); });
+    t.classList.add("on");
+    const f = t.dataset.f;
+    $$(".ch").forEach(function (card, i) {
+      const match = f === "all" || card.dataset.team === f;
+      card.classList.toggle("hide", !match);
+      if (match) {
+        card.style.animation = "none";
+        void card.offsetWidth; /* reflow */
+        card.style.animation = "qiah .5s ease " + (i % 8) * 0.05 + "s both";
+      }
+    });
+  });
+
+  /* ---------------- Reveal al scrolls ---------------- */
+  const io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+  $$(".reveal").forEach(function (el) { io.observe(el); });
+
+  /* ---------------- Contadores ---------------- */
+  function animateNum(el) {
+    const target = parseInt(el.dataset.count, 10);
+    const dur = 1400, t0 = performance.now();
+    function step(now) {
+      const p = Math.min(1, (now - t0) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const raw = Math.round(target * eased);
+      el.textContent = (target >= 1800 && target <= 2200) ? String(raw) : raw.toLocaleString("es");
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  const ioNum = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { animateNum(en.target); ioNum.unobserve(en.target); }
+    });
+  }, { threshold: 0.5 });
+  $$(".num[data-count]").forEach(function (el) { ioNum.observe(el); });
+
+  /* ---------------- Nav activo ---------------- */
+  const navLinks = $$("nav .links a");
+  const ioSec = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) {
+        navLinks.forEach(function (a) { a.classList.toggle("on", a.getAttribute("href") === "#" + en.target.id); });
+      }
+    });
+  }, { threshold: 0.25 });
+  $$("main section, header.hero").forEach(function (s) { ioSec.observe(s); });
+
+  /* ---------------- Sorteo del grimorio ---------------- */
+  $("#rollBtn").addEventListener("click", function () {
+    const s = SQUADS[Math.floor(Math.random() * SQUADS.length)];
+    const out = $("#rollOut");
+    out.innerHTML =
+      '<div class="result-card" style="--ac:' + s.ac + '">' +
+        '<div class="re">' + s.ic + '</div>' +
+        '<h3 class="serif">' + s.es + '</h3>' +
+        '<div class="capr">' + s.en + ' · Capitán(a): ' + s.cap + '</div>' +
+        '<div class="why">“' + s.wr + '”</div>' +
+      '</div>';
+    burst(window.innerWidth / 2, window.innerHeight / 2, 26);
+  });
+
+  /* ---------------- Sparkles al hacer click ---------------- */
+  const PALETTE = [GOLD, GREEN, CRIM, SKY, VIOLET, "#fdf6e3"];
+  function burst(x, y, count) {
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement("span");
+      el.className = "spark";
+      el.style.left = x + "px";
+      el.style.top = y + "px";
+      el.style.background = PALETTE[i % PALETTE.length];
+      const ang = Math.random() * Math.PI * 2;
+      const dist = 34 + Math.random() * 66;
+      el.style.setProperty("--dx", Math.cos(ang) * dist + "px");
+      el.style.setProperty("--dy", Math.sin(ang) * dist + "px");
+      el.style.setProperty("--rot", (Math.random() * 540 - 270) + "deg");
+      document.body.appendChild(el);
+      setTimeout(function () { el.remove(); }, 850);
+    }
+  }
+  document.addEventListener("click", function (e) { burst(e.clientX, e.clientY, 7); });
+
+  /* ---------------- Partículas del hero ---------------- */
+  (function () {
+    const canvas = $("#fx");
+    if (!canvas || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const ctx = canvas.getContext("2d");
+    let W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
+    function resize() {
+      W = canvas.clientWidth; H = canvas.clientHeight;
+      canvas.width = W * DPR; canvas.height = H * DPR;
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    const COLORS = ["242,193,78", "67,212,119", "124,196,255", "247,215,126"];
+    const N = 70;
+    const parts = [];
+    for (let i = 0; i < N; i++) {
+      parts.push({
+        x: Math.random(), y: Math.random(),
+        r: 0.8 + Math.random() * 2.4,
+        s: 0.12 + Math.random() * 0.4,
+        o: 0.15 + Math.random() * 0.5,
+        c: COLORS[Math.floor(Math.random() * COLORS.length)],
+        w: Math.random() * Math.PI * 2
+      });
+    }
+
+    let last = performance.now();
+    function loop(now) {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      ctx.clearRect(0, 0, W, H);
+      for (const p of parts) {
+        p.y -= p.s * dt;
+        p.w += dt * 1.5;
+        if (p.y < -0.03) { p.y = 1.03; p.x = Math.random(); }
+        const wob = Math.sin(p.w) * 12;
+        ctx.beginPath();
+        ctx.arc(p.x * W + wob, p.y * H, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(" + p.c + "," + p.o + ")";
+        ctx.fill();
+      }
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  })();
+</script>
+</body>
+</html>
